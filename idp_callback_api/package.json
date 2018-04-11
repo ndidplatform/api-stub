@@ -1,6 +1,6 @@
 {
   "name": "idp-callback-interface",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "API that IDP must implement on its side to be called from NDID",
   "main": "index.js",
   "scripts": {

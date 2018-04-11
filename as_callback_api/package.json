@@ -1,6 +1,6 @@
 {
   "name": "as-service-offering-api",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "API Spec for AS Providing Data to the NDID Network",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "platform-utility-function",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Other functions needed by anyone using the platform",
   "main": "index.js",
   "scripts": {

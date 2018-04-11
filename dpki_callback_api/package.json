@@ -1,6 +1,6 @@
 {
   "name": "dpki-callback-function",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Functions that organization that wants to use other methods of signing data other than default must implement",
   "main": "index.js",
   "scripts": {
