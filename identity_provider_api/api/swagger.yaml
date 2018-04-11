@@ -1,0 +1,122 @@
+---
+swagger: "2.0"
+info:
+  description: "API for IDP specific roles"
+  version: "1.0"
+  title: "Identity Provider API"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/identity_provider/0.1"
+schemes:
+- "https"
+paths:
+  /idp/callback:
+    get:
+      summary: "Retrieve current callback url"
+      description: "asdf"
+      operationId: "get_callback_url"
+      consumes:
+      - "application/json"
+      parameters: []
+      responses:
+        201:
+          description: "Identity Created"
+          schema:
+            $ref: "#/definitions/inline_response_201"
+        400:
+          description: "Error: Invalid accessor method or accessor value"
+        403:
+          description: "Error: Identity already exist"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Set callback url"
+      description: "asdf"
+      operationId: "set_callback_url"
+      parameters:
+      - in: "body"
+        name: "url"
+        description: "callback URL endpoint"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Endorsement Successful"
+        400:
+          description: "Error: Invalid endorsement type"
+        404:
+          description: "Error: Identity does not exist"
+      x-swagger-router-controller: "Default"
+  /idp/response:
+    post:
+      summary: "Respond to a request"
+      description: "asdf"
+      operationId: "respond_to_request"
+      parameters:
+      - in: "body"
+        name: "idp_response"
+        description: "IDP_response"
+        required: true
+        schema:
+          $ref: "#/definitions/IDPResponse"
+      responses:
+        200:
+          description: "Response Successful"
+        400:
+          description: "Error: Invalid Response"
+        404:
+          description: "Error: Identity does not exist"
+      x-swagger-router-controller: "Default"
+definitions:
+  IDPResponse:
+    type: "object"
+    required:
+    - "aal"
+    - "accessor_id"
+    - "identifier"
+    - "namespace"
+    - "request_id"
+    - "secret"
+    - "signature"
+    - "status"
+    properties:
+      status:
+        type: "string"
+        description: "Status, whether user accept or reject the request."
+        enum:
+        - "accept"
+        - "reject"
+      request_id:
+        type: "string"
+      namespace:
+        type: "string"
+      identifier:
+        type: "string"
+      secret:
+        type: "string"
+      aal:
+        type: "string"
+      signature:
+        type: "string"
+        description: "IDP must sign Hash(request_message) sent via IDP callback with\
+          \ private key that's associated with the publickey added as accessor method\
+          \ for the accessor_id"
+      accessor_id:
+        type: "string"
+        description: "IDP must indicate which accessor method it uses by assigning\
+          \ the right accessor_id"
+    example:
+      identifier: "identifier"
+      accessor_id: "accessor_id"
+      signature: "signature"
+      namespace: "namespace"
+      secret: "secret"
+      request_id: "request_id"
+      aal: "aal"
+      status: "accept"
+  inline_response_201:
+    properties:
+      url:
+        type: "string"
+        description: "REST url endpoint"
+    example:
+      url: "url"

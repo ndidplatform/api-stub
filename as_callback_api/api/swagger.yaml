@@ -1,0 +1,80 @@
+---
+swagger: "2.0"
+info:
+  description: "API Spec for AS Providing Data to the NDID Network"
+  version: "1.0"
+  title: "AS Service Offering API"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/as_callback/0.1"
+schemes:
+- "https"
+paths:
+  /service/{namespace}/{identifier}:
+    get:
+      summary: "Service X being offered by an AS to NDID"
+      description: "asdf"
+      operationId: "serviceNamespaceIdentifierGET"
+      parameters:
+      - name: "namespace"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "identifier"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "request"
+        description: "data request format"
+        required: true
+        schema:
+          $ref: "#/definitions/DataRequest"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/DataMessage"
+        400:
+          description: "error: invalid namespace/identifier"
+        401:
+          description: "unauthorized: invalid signature or ial level"
+        404:
+          description: "data not found"
+      x-swagger-router-controller: "Default"
+definitions:
+  DataRequest:
+    type: "object"
+    required:
+    - "request_id"
+    - "request_params"
+    - "signature"
+    properties:
+      request_id:
+        type: "string"
+      request_params:
+        type: "string"
+      signature:
+        type: "array"
+        items:
+          type: "string"
+      max_ial:
+        type: "integer"
+      max_aal:
+        type: "integer"
+    example:
+      signature:
+      - "signature"
+      - "signature"
+      max_aal: 6
+      request_params: "request_params"
+      max_ial: 0
+      request_id: "request_id"
+  DataMessage:
+    type: "object"
+    required:
+    - "data"
+    properties:
+      data:
+        type: "string"
+    example:
+      data: "data"

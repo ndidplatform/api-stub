@@ -1,0 +1,74 @@
+---
+swagger: "2.0"
+info:
+  description: "API for AS specific Roles"
+  version: "1.0"
+  title: "AS API"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/authoritative_source_api/0.1"
+schemes:
+- "https"
+paths:
+  /as/service/{service_id}:
+    get:
+      summary: "Get information about service offered by this AS"
+      description: "asdf"
+      operationId: "get_service"
+      parameters:
+      - name: "service_id"
+        in: "path"
+        description: "service ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Service Found"
+          schema:
+            $ref: "#/definitions/ASServices"
+        404:
+          description: "Service Not Found"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Add or Update service offered by this AS"
+      description: "asdf"
+      operationId: "register_service"
+      parameters:
+      - name: "service_id"
+        in: "path"
+        description: "service ID"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "service"
+        description: "IDP_response"
+        required: true
+        schema:
+          $ref: "#/definitions/ASServices"
+      responses:
+        200:
+          description: "Update Successful"
+        201:
+          description: "Create Successful"
+        400:
+          description: "Error something is wrong"
+      x-swagger-router-controller: "Default"
+definitions:
+  ASServices:
+    type: "object"
+    properties:
+      service_id:
+        type: "string"
+      service_name:
+        type: "string"
+      min_ial:
+        type: "integer"
+      min_aal:
+        type: "integer"
+      url:
+        type: "string"
+    example:
+      min_aal: 6
+      service_name: "service_name"
+      service_id: "service_id"
+      min_ial: 0
+      url: "url"

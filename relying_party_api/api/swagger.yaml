@@ -1,0 +1,286 @@
+---
+swagger: "2.0"
+info:
+  description: "API for RP specific functions and roles"
+  version: "1.0"
+  title: "Relying Party API"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/relying_party_api/0.1"
+schemes:
+- "https"
+paths:
+  /rp/requests/{namespace}/{identifier}:
+    post:
+      summary: "Send request to {namespace}/{identifier}"
+      description: "asdf"
+      operationId: "send_request_to_id"
+      parameters:
+      - name: "namespace"
+        in: "path"
+        description: "ID Namespace"
+        required: true
+        type: "string"
+      - name: "identifier"
+        in: "path"
+        description: "Identifier for the ID"
+        required: true
+        type: "string"
+      - name: "timeout"
+        in: "query"
+        description: "timeout in ms.  Once this timeout is reached, the API returns\
+          \ control to the caller, and caller should poll for update.  If empty, assume\
+          \ indefinite sync mode. (not safe)"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - in: "body"
+        name: "request"
+        description: "Additional identifiers for this ID to add"
+        required: true
+        schema:
+          $ref: "#/definitions/Requests"
+      responses:
+        200:
+          description: "Request Successful"
+          schema:
+            type: "string"
+            description: "Request ID"
+        202:
+          description: "Request Accepted -- Async processing, please check back or\
+            \ wait for response at Callback URL"
+          schema:
+            type: "string"
+            description: "Request ID"
+        400:
+          description: "Error: Invalid Request"
+        404:
+          description: "Error: Identity does not exist"
+      x-swagger-router-controller: "Default"
+  /rp/requests/{request_id}:
+    get:
+      summary: "Fetch Request status"
+      description: "TBD"
+      operationId: "get_request_status"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "request ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Requests Exist"
+          schema:
+            $ref: "#/definitions/RequestsStatus"
+        404:
+          description: "No request Exist"
+      x-swagger-router-controller: "Default"
+  /rp/requests/reference/{reference_number}:
+    get:
+      summary: "get request_id for the request with {reference_number} -- Only request\
+        \ from this RP will succeed, reference number is not propagated to other nodes."
+      operationId: "get_request_id_from_reference_number"
+      parameters:
+      - name: "reference_number"
+        in: "path"
+        description: "reference number"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Requests exist"
+          schema:
+            type: "string"
+        404:
+          description: "No reference number in the system"
+      x-swagger-router-controller: "Default"
+  /rp/requests/data/{request_id}:
+    get:
+      summary: "Get Data requested from IDP and AS"
+      description: "TBD"
+      operationId: "get_request_data"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Request ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Data found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/RequestsData"
+        400:
+          description: "Request does not exist (Bad/incorrect request_id)"
+        404:
+          description: "No data found"
+      x-swagger-router-controller: "Default"
+definitions:
+  Requests:
+    type: "object"
+    required:
+    - "min_aal"
+    - "min_ial"
+    - "min_idp"
+    - "request_message"
+    - "request_timeout"
+    properties:
+      reference_number:
+        type: "string"
+      idp_list:
+        type: "array"
+        items:
+          type: "string"
+      callback_url:
+        type: "string"
+        description: "Call Back URL for Asynchronous request.  If empty, then synchronous\
+          \ mode is assumed."
+      as_service_list:
+        type: "array"
+        items:
+          $ref: "#/definitions/Requests_as_service_list"
+      request_message:
+        type: "string"
+      min_ial:
+        type: "integer"
+      min_aal:
+        type: "integer"
+      min_idp:
+        type: "integer"
+      request_timeout:
+        type: "integer"
+        description: "Timeout for the request transaction (not session).  Unit in\
+          \ seconds."
+    example:
+      callback_url: "callback_url"
+      min_aal: 1
+      as_service_list:
+      - as_id:
+        - "as_id"
+        - "as_id"
+        service_id: "service_id"
+        count: 0
+        params: "params"
+      - as_id:
+        - "as_id"
+        - "as_id"
+        service_id: "service_id"
+        count: 0
+        params: "params"
+      request_timeout: 5
+      request_message: "request_message"
+      min_idp: 5
+      min_ial: 6
+      reference_number: "reference_number"
+      idp_list:
+      - "idp_list"
+      - "idp_list"
+  RequestsStatus:
+    type: "object"
+    required:
+    - "min_aal"
+    - "min_ial"
+    - "min_idp"
+    - "request_message"
+    - "request_type"
+    - "service_id_list"
+    - "status"
+    - "timeout"
+    properties:
+      request_type:
+        type: "string"
+        enum:
+        - "consent"
+        - "data"
+      request_message:
+        type: "string"
+      min_ial:
+        type: "integer"
+      min_aal:
+        type: "integer"
+      min_idp:
+        type: "integer"
+      service_id_list:
+        type: "array"
+        items:
+          type: "string"
+      timeout:
+        type: "integer"
+      status:
+        type: "string"
+        enum:
+        - "open"
+        - "confirmed"
+        - "denied"
+        - "complete"
+        - "error"
+        - "closed"
+        - "complex"
+        - "timeout"
+    example:
+      min_aal: 6
+      request_type: "consent"
+      request_message: "request_message"
+      min_idp: 1
+      service_id_list:
+      - "service_id_list"
+      - "service_id_list"
+      min_ial: 0
+      timeout: 5
+      status: "open"
+  RequestsData:
+    type: "object"
+    required:
+    - "data"
+    - "service_id"
+    - "source_node_id"
+    - "source_signature"
+    properties:
+      source_node_id:
+        type: "string"
+        description: "ID of IDP or AS that provided the data"
+      service_id:
+        type: "string"
+        description: "ID of the service requested"
+      source_signature:
+        type: "string"
+        description: "Digital Signature"
+      data:
+        type: "string"
+    example:
+      source_node_id: "source_node_id"
+      data: "data"
+      service_id: "service_id"
+      source_signature: "source_signature"
+  Requests_as_service_list:
+    required:
+    - "count"
+    - "params"
+    - "service_id"
+    properties:
+      service_id:
+        type: "string"
+      as_id:
+        type: "array"
+        items:
+          type: "string"
+          description: "[Optional] if not provided, request from all AS offering {service_id}."
+      count:
+        type: "integer"
+        description: "Number of data source to request"
+      params:
+        type: "string"
+        description: "Parameter expected by the AS to complete the request.  (For\
+          \ example, a request for bank statement may request format, such as xml,\
+          \ json, pdf, etc...)"
+    example:
+      as_id:
+      - "as_id"
+      - "as_id"
+      service_id: "service_id"
+      count: 0
+      params: "params"

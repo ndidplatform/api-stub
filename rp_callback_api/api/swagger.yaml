@@ -1,0 +1,46 @@
+---
+swagger: "2.0"
+info:
+  description: "API that RP must implement to be called by asynchronous RP request"
+  version: "1.0"
+  title: "RP Callback API"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/rp_callback/0.1"
+schemes:
+- "https"
+paths:
+  /rp/request/{request_id}:
+    post:
+      summary: "Update from NDID"
+      description: "Update from NDID to RP, there's been an update to the status"
+      operationId: "request_for_authentication"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "ID Namespace"
+        required: true
+        type: "string"
+      - name: "status"
+        in: "query"
+        description: "Request status"
+        required: true
+        type: "string"
+        enum:
+        - "open"
+        - "confirmed"
+        - "denied"
+        - "complete"
+        - "error"
+        - "closed"
+        - "complex"
+        - "timeout"
+      responses:
+        200:
+          description: "Status Update Accepted"
+        400:
+          description: "Error: Invalid Request ID"
+        404:
+          description: "Error: Request ID does not exist (RP didn't ask about this\
+            \ Request ID"
+      x-swagger-router-controller: "Default"
+definitions: {}

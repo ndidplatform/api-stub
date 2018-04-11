@@ -1,0 +1,73 @@
+---
+swagger: "2.0"
+info:
+  description: "Functions that organization that wants to use other methods of signing\
+    \ data other than default must implement"
+  version: "1.0"
+  title: "DPKI callback function"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/dpki_callback/0.1"
+schemes:
+- "https"
+paths:
+  /dpki/sign:
+    post:
+      summary: "Implement this function to sign using node's private key. "
+      description: "Implement this function to sign using node's private key. (Must\
+        \ match the node's public key registered to the NDID node)"
+      operationId: "dpkiSignPOST"
+      parameters:
+      - in: "body"
+        name: "sign_request"
+        required: true
+        schema:
+          $ref: "#/definitions/sign_request"
+      responses:
+        200:
+          description: "successful, returning signature in the response body"
+          schema:
+            type: "string"
+      x-swagger-router-controller: "Default"
+  /dpki/master/sign:
+    post:
+      summary: "Implement this function to sign using node's private key. "
+      description: "Implement this function to sign using node's private key. (Must\
+        \ match the node's public key registered to the NDID node)"
+      operationId: "dpkiMasterSignPOST"
+      parameters:
+      - in: "body"
+        name: "sign_request"
+        required: true
+        schema:
+          $ref: "#/definitions/sign_request"
+      responses:
+        200:
+          description: "successful, returning signature in the response body"
+          schema:
+            type: "string"
+      x-swagger-router-controller: "Default"
+definitions:
+  sign_request:
+    type: "object"
+    required:
+    - "node_id"
+    properties:
+      node_id:
+        type: "string"
+      request_message:
+        type: "string"
+        description: "message that need signing"
+      request_hash:
+        type: "string"
+        description: "hash of the message, sign this! (you can check it by hashing\
+          \ the request_message using hash_method"
+      hash_method:
+        type: "string"
+        description: "name of the hash function used"
+      key_type:
+        type: "string"
+        description: "Type of public key registered on the node key (or node_master_key)\
+          \ at Node node_id.  Make sure to sign using the right algorithm"
+      sign_method:
+        type: "string"
+        description: "sign algorithm to use"

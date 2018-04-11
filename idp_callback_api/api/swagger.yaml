@@ -1,0 +1,113 @@
+---
+swagger: "2.0"
+info:
+  description: "API that IDP must implement on its side to be called from NDID"
+  version: "1.0"
+  title: "IDP Callback interface"
+host: "virtserver.swaggerhub.com"
+basePath: "/ndid/idp_callback/0.1"
+schemes:
+- "https"
+paths:
+  /idp/request/{namespace}/{identifier}:
+    post:
+      summary: "Request for Authentication from NDID"
+      description: "Request for Authentication from NDID to IDP"
+      operationId: "request_for_authentication"
+      parameters:
+      - name: "namespace"
+        in: "path"
+        description: "ID Namespace"
+        required: true
+        type: "string"
+      - name: "identifier"
+        in: "path"
+        description: "Identifier for the ID"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "requests"
+        description: "Requests"
+        required: true
+        schema:
+          $ref: "#/definitions/Requests"
+      responses:
+        200:
+          description: "Request Accepted"
+        400:
+          description: "Error: Invalid Request"
+        404:
+          description: "Error: Identity does not exist"
+      x-swagger-router-controller: "Default"
+definitions:
+  Requests:
+    type: "object"
+    required:
+    - "as_service_list"
+    - "min_aal"
+    - "min_ial"
+    - "request_id"
+    - "request_message"
+    - "requester_id"
+    properties:
+      request_id:
+        type: "string"
+      request_message:
+        type: "string"
+      requester_id:
+        type: "string"
+      min_ial:
+        type: "integer"
+      min_aal:
+        type: "integer"
+      as_service_list:
+        type: "array"
+        items:
+          $ref: "#/definitions/Requests_as_service_list"
+    example:
+      min_aal: 6
+      as_service_list:
+      - as_id:
+        - "as_id"
+        - "as_id"
+        service_id: "service_id"
+        count: 1
+        params: "params"
+      - as_id:
+        - "as_id"
+        - "as_id"
+        service_id: "service_id"
+        count: 1
+        params: "params"
+      request_message: "request_message"
+      min_ial: 0
+      request_id: "request_id"
+      requester_id: "requester_id"
+  Requests_as_service_list:
+    required:
+    - "count"
+    - "params"
+    - "service_id"
+    properties:
+      service_id:
+        type: "string"
+      as_id:
+        type: "array"
+        items:
+          type: "string"
+          description: "[Optional] if not provided, request from all AS offering {service_id}."
+      count:
+        type: "integer"
+        description: "Number of data source to request"
+      params:
+        type: "string"
+        description: "Parameter expected by the AS to complete the request.  (For\
+          \ example, a request for bank statement may request format, such as xml,\
+          \ json, pdf, etc...)"
+    example:
+      as_id:
+      - "as_id"
+      - "as_id"
+      service_id: "service_id"
+      count: 1
+      params: "params"
