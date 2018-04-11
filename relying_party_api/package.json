@@ -1,11 +1,11 @@
 {
   "name": "relying-party-api",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "API for RP specific functions and roles",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "prestart": "npm install",
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
