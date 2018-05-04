@@ -68,7 +68,7 @@ func RequestToId(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if len(errs) > 0 {
 		err := map[string]interface{}{"validationError": errs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}
