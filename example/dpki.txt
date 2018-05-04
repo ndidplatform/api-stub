@@ -1,0 +1,13 @@
+[POST] /dpki/node/register_callback
+curl -X POST \
+  http://localhost:8000/dpki/node/register_callback \
+  -H 'Content-Type: application/json' \
+  -d '{"url":"http://as.co.th"}'
+  
+[POST] 
+curl -X POST \
+  http://localhost:8000/dpki/node/register_callback_master \
+  -H 'Content-Type: application/json' \
+  -d '{"url":"http://rp.co.th"}'
+  
+  

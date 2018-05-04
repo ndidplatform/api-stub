@@ -1,0 +1,61 @@
+[POST] rp/requests/{namespace}/{identifier}
+curl -X POST \
+  http://localhost:8000/rp/requests/cid/1234567890123 \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "reference_number": "string",
+  "idp_list": [
+    "string"
+  ],
+  "callback_url": "string",
+  "as_service_list": [
+    {
+      "service_id": "string",
+      "as_id": [
+        "string"
+      ],
+      "count": 0,
+      "params": "string"
+    }
+  ],
+  "request_message": "string",
+  "min_ial": "2.1",
+  "min_aal": "2.1",
+  "min_idp": 1,
+  "request_timeout": 100000
+}'
+[POST] /rp/requests/{request_id}
+//200
+curl -X GET \
+  http://localhost:8000/rp/requests/123 
+ 
+//404
+curl -X GET \
+  http://localhost:8000/rp/requests/xxx 
+
+[POST] /rp/requests/reference/{reference_number}
+// 200
+curl -X GET \
+  http://localhost:8000/rp/requests/reference/123 
+
+//404
+curl -X GET \
+  http://localhost:8000/rp/requests/reference/xxx 
+  
+[POST] /rp/requests/data/{request_id}
+
+//200
+curl -X GET \
+  http://localhost:8000/rp/requests/data/123 
+  
+//400
+curl -X GET \
+  http://localhost:8000/rp/requests/data/yyy 
+
+//404
+curl -X GET \
+  http://localhost:8000/rp/requests/data/xxx 
+
+
+
+
