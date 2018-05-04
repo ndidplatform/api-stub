@@ -25,5 +25,6 @@
 `curl -X POST http://localhost:8000/identity/cid/2345678901234/endorsement -H 'Content-Type: application/json' -d '{"secret": "string", "accessor_type": "string", "accessor_key": "string", "accessor_id": "string"}'`
 #### GET /identity/{namespace}/{identifier}/requests/history
 `curl -X GET 'http://localhost:8000/identity/cid/1234567890123/requests/history?count=5'`
-
+#### More example
+https://github.com/ndidplatform/api-stub/tree/master/example
 
