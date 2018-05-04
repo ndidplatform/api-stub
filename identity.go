@@ -120,7 +120,7 @@ func CreateIdentity(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if validErrs := iden.validateIdentiy(); len(validErrs) > 0 {
 		err := map[string]interface{}{"validationError": validErrs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}
@@ -196,7 +196,7 @@ func NewIdentifiers(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if len(errs) > 0 {
 		err := map[string]interface{}{"validationError": errs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}
@@ -277,7 +277,7 @@ func SubmitEndorsement(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if len(errs) > 0 {
 		err := map[string]interface{}{"validationError": errs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}
@@ -337,7 +337,7 @@ func AddAccessorMethod(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if len(errs) > 0 {
 		err := map[string]interface{}{"validationError": errs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}
@@ -384,7 +384,7 @@ func FetchRequestHistory(w http.ResponseWriter, r *http.Request) {
 	//Validate
 	if len(errs) > 0 {
 		err := map[string]interface{}{"validationError": errs}
-		w.Header().Set("Content-type", "applciation/json")
+		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(err)
 	}

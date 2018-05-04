@@ -33,10 +33,10 @@ func AddUpdateAsService(w http.ResponseWriter, r *http.Request) {
 		errs.Add("service_name", "The service_name field is required!")
 	}
 	if asService.MinIal == 0 {
-		errs.Add("min_ial", "The min_ial field is required or greter than 0")
+		errs.Add("min_ial", "The min_ial field is required or greater than 0")
 	}
 	if asService.MinAal == 0 {
-		errs.Add("min_aal", "The min_aal field is required greter than 0")
+		errs.Add("min_aal", "The min_aal field is required greater than 0")
 	}
 	if asService.Url == "" {
 		errs.Add("url", "The url field is required!")
