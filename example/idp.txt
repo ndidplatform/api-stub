@@ -1,0 +1,53 @@
+[GET] /idp/callback
+curl -X GET \
+  http://localhost:8000/idp/callback 
+  
+[POST] /idp/callback
+curl -X POST \
+  http://localhost:8000/idp/callback \
+  -H 'Content-Type: application/json' \
+  -d '{"url":"http://idp1.co.th"}'
+
+[POST] /idp/response
+// return 200
+curl -X POST \
+  http://localhost:8000/idp/response \
+  -d '{
+  "status": "accept",
+  "request_id": "string",
+  "namespace": "cid",
+  "identifier": "1234567890123",
+  "secret": "string",
+  "aal": "string",
+  "signature": "string",
+  "accessor_id": "string"
+}'
+
+
+// return 400
+curl -X POST \
+  http://localhost:8000/idp/response \
+  -d '{
+  "status": "accept",
+  "request_id": "xxx",
+  "namespace": "cid",
+  "identifier": "1234567890123",
+  "secret": "string",
+  "aal": "string",
+  "signature": "string",
+  "accessor_id": "string"
+}'
+
+// return 404 
+curl -X POST \
+  http://localhost:8000/idp/response \
+  -d '{
+  "status": "accept",
+  "request_id": "string",
+  "namespace": "string",
+  "identifier": "string",
+  "secret": "string",
+  "aal": "string",
+  "signature": "string",
+  "accessor_id": "string"
+}'

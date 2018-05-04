@@ -1,0 +1,36 @@
+[POST] /as/service/{servie_id}
+curl -X POST \
+  http://localhost:8000/as/service/aaa \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "service_id": "string",
+  "service_name": "string",
+  "min_ial": 1,
+  "min_aal": 1,
+  "url": "string"
+}'
+
+[GET] /as/service/{service_id}
+// return 200
+curl -X GET \
+  http://localhost:8000/as/service/111 \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "service_id": "xxx",
+  "service_name": "string",
+  "min_ial": 1,
+  "min_aal": 1,
+  "url": "string"
+}'
+
+// return 400
+curl -X GET \
+  http://localhost:8000/as/service/xxx \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "service_id": "xxx",
+  "service_name": "string",
+  "min_ial": 1,
+  "min_aal": 1,
+  "url": "string"
+}'
